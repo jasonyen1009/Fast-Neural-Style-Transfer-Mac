@@ -17,13 +17,21 @@ if __name__ == "__main__":
 
     os.makedirs("images/outputs", exist_ok=True)
 
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    # device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    use_cuda = 1
+    device = torch.device("mps" if use_cuda else "cpu")
+
+    # device = torch.device('cpu')
 
     transform = style_transform()
 
     # Define model and load model checkpoint
     transformer = TransformerNet().to(device)
-    transformer.load_state_dict(torch.load(args.checkpoint_model))
+    # transformer.load_state_dict(torch.load(args.checkpoint_model))
+    transformer.load_state_dict(torch.load(args.checkpoint_model, map_location=torch.device('cpu')))
+
+    # transformer = torch.load(args.checkpoint_model, map_location=torch.device('cpu'))
+
     transformer.eval()
 
     # Prepare input

@@ -33,7 +33,12 @@ if __name__ == "__main__":
     os.makedirs(f"images/outputs/{style_name}-training", exist_ok=True)
     os.makedirs(f"checkpoints", exist_ok=True)
 
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    # device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+    # device = "mps" if getattr(torch,'has_mps',False) \
+    # else "gpu" if torch.cuda.is_available() else "cpu"
+
+    device = torch.device("cpu")
 
     # Create dataloader for the training data
     train_dataset = datasets.ImageFolder(args.dataset_path, train_transform(args.image_size))
